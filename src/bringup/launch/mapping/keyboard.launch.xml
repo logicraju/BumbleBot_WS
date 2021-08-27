@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Command Line Argument to Select Mode -->
+  <arg name="mode" default="simulation"/>
+
+  <!-- Keyboard Teleop -->
+  <include file="$(find turtlebot_teleop)/launch/keyboard_teleop_$(arg mode).launch"/>
+
+</launch>

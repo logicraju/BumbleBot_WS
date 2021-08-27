@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Load the robot model into the parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_hardware.urdf'"/>
+  
+  <!-- Motor Controller -->
+  <node pkg="my_motor_controller" type="motor_driver_ros_interface.py" name="motor_controller_ros" output="screen"/>
+  
+  <!-- Differential Drive Controller  -->
+  <node pkg="differential_driver" type="twist_to_motors.py" name="twist_to_motors" output="screen"/>
+  <node pkg="differential_driver" type="diff_tf.py" name="diff_tf" output="screen"/>
+
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  
+  <!-- Arduino -->
+  <node pkg="rosserial_python" name="rosserial_arduino_node" type="serial_node.py" args="/dev/arduino_mega"/>
+  
+  <!-- Joystick Teleop -->
+  <include file="$(find learning_joy)/launch/turtle_joy_hardware.launch"/>
+  
+  <!-- Joystick Functionalities -->
+  <node pkg="custom_scripts" name="robot_interaction" type="robot_interaction.py"/>
+
+  <!-- RPLidar A1M8 -->
+  <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(find my_robot_model)/maps/rajesh_home.yaml"/>
+  
+  <!-- AMCL - Localization -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam file="$(find bringup)/config/amcl.yaml" command="load"/>
+  </node>
+  
+  <!-- RVIZ  - Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_navigation.rviz"/>
+  
+</launch>

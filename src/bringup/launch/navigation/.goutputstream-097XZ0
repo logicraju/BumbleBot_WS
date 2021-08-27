@@ -1,0 +1,46 @@
+<launch>
+
+  <!-- Load the robot model into the parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_hardware.xacro'"/>
+  
+  <!-- Robot harware driver -->
+  <node pkg="robot_base" type="robot_base_node" name="robot_base_node" output="screen"/>
+
+  <!-- RPLidar A1M8 -->
+  <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+
+  <!-- Diff Drive Controller -->
+  <include file="$(find diff_drive_controller)/launch/diff_drive_common.launch"/>
+
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Joint State Publisher GUI - Joint State Slider Tool -->
+  <!--node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/-->
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- RVIZ  - Visualization -->
+  <!--node name="rviz" pkg="rviz" type="rviz"/-->
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="/home/odroid/My_Robot/src/my_robot_model/maps/rajesh_home.yaml"/>
+
+  <!-- AMCL - Localization -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam file="$(find my_robot_model)/config/amcl.yaml" command="load"/>
+  </node>
+
+  <!-- Move Base - Navigation -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <param name="controller_frequency" value="10.0" />
+    <rosparam file="$(find my_robot_model)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find my_robot_model)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find my_robot_model)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find my_robot_model)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find my_robot_model)/config/trajectory_planner.yaml" command="load" />
+    <remap from="/cmd_vel" to="/diffbot_controller/cmd_vel"/>
+  </node>
+
+</launch>

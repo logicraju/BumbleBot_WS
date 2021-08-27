@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Command Line Argument to Select Mode -->
+  <arg name="mode" default="simulation"/>
+  
+  <!-- Do Nothing -->
+
+</launch>

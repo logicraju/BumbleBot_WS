@@ -1,0 +1,23 @@
+<launch>
+
+  <!-- Load the robot model into the parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_simulation.urdf'"/>
+  
+  <!-- Launch the gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find my_robot_model)/gazebo_worlds/plaza_world.world"/>
+  </include>
+
+  <!-- Load the robot model in the parameter server into the gazebo world -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model my_robo -param robot_description"/>
+
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- RViz - For Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo.rviz"/>
+
+</launch>

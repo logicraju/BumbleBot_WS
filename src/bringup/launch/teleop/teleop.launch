@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Command Line Argument to Select Mode -->
+  <arg name="mode" default="simulation" doc="available modes: [hardware, simulation]"/>
+
+  <!-- Command Line Argument to Select Teleop Device -->
+  <arg name="device" default="android" doc="available devices: [keyboard, joystick, android]"/>
+
+  <!-- Load the robot model into the parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_$(arg mode).urdf'"/>
+
+  <!-- Launch Hardware/Simulation Specific Modules -->
+  <include file="$(find bringup)/launch/teleop/$(arg mode).launch.xml"/>
+
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- RVIZ  - Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_teleop.rviz"/>
+
+  <!-- Select Teleop Device -->
+  <include file="$(find bringup)/launch/teleop/$(arg device).launch.xml">
+    <arg name="mode" value="$(arg mode)" />
+  </include>
+
+</launch>
+
+
+
+

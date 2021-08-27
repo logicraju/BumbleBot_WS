@@ -1,0 +1,18 @@
+Left Motor
+==========
+Rotations: 21
+Encoder Count: 1464404
+Encoder Count per Rotation: Encoder Count/Rotations = 69733.52
+
+Gear Ratio : 69733.52/(334*4)
+= 52.195
+
+
+Right Motor
+===========
+Rotations: 21
+Encoder Count: 1462067
+Encoder Count per Rotation: Encoder Count/Rotations = 69622.24
+
+Gear Ratio : 69622.24/(334*4)
+= 52.112

@@ -1,0 +1,16 @@
+local_costmap:
+  global_frame: map #odom
+  robot_base_frame: base_footprint
+  robot_radius: 0.15
+  update_frequency: 1.0 #10.0
+  publish_frequency: 1.0 #10.0
+  transform_tolerance: 0.75 #0.5
+  static_map: false  
+  rolling_window: true
+  width: 3 #3
+  height: 3 #3
+  resolution: 0.05
+  inflation_radius: 0.1
+  cost_scaling_factor: 75 #100.0
+  observation_sources: scan
+  scan: {sensor_frame: laser_link, data_type: LaserScan, topic: /scan, marking: true, clearing: true}

@@ -1,0 +1,17 @@
+<launch>
+ <!-- joy node -->
+  <node respawn="true" pkg="joy"
+        type="joy_node" name="turtle_joy" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.12" />
+  </node>
+
+ <!-- Axes -->
+  <param name="axis_linear" value="1" type="int"/>
+  <param name="axis_angular" value="3" type="int"/>
+  <param name="scale_linear" value="2" type="double"/>
+  <param name="scale_angular" value="3" type="double"/>
+  <node pkg="learning_joy" type="turtle_teleop_joy" name="teleop">
+	<!--remap from="/cmd_vel" to="/diffbot_controller/cmd_vel"/-->
+  </node>
+</launch>

@@ -1,0 +1,5 @@
+SUBSYSTEM=="tty", SUBSYSTEMS=="usb",ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="0002", MODE="0777",SYMLINK+="right_wheel"
+SUBSYSTEM=="tty", SUBSYSTEMS=="usb",ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="0003", MODE="0777",SYMLINK+="left_wheel"
+SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="0001", MODE="0777", SYMLINK+="usb_lidar"
+SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", ATTRS{serial}=="75630313636351A052C1", MODE="0777", SYMLINK+="arduino_uno"
+SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0777", SYMLINK+="arduino_mega"

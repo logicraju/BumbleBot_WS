@@ -1,0 +1,1 @@
+https://askubuntu.com/questions/1039814/how-to-create-a-udev-rule-for-two-devices-with-the-same-manufacturer-id-product

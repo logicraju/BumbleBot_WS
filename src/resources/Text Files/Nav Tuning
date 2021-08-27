@@ -1,0 +1,13 @@
+1. Motor driver crash test - Done
+2. Teleop with AMCL test - Done
+3. Odometry : Teleop in Odom frame with laser scan (in place rotation test) - Somewhat OK (Maybe adding IMU fusion would lessen the odom error) (Left and Right wheels were swapped in urdf hardware, but correct in urdf simulation)
+	Adjust the base width parameter in twist_to_motors.py, diff_tf.py, and URDF to minimize the odom drift. Now, the current drift is around 10-20 degrees.
+
+			One of the main causes of drift was due to large delay in sending out encoder ticks. By the time new odometry values are calculated, the motor would have turned so many times which makes odometry outdated. This leads to mismatch between lidar scan and odometry.
+
+			Also, the error : "device reports readiness to read but returned no data (device disconnected or multiple access on port?)" arises due to some ubuntu service which interferes with the serial communication. Stopping this service prevents the error. "sudo systemctl stop getty@tty1.service" or "sudo systemctl disable getty@tty1.service"
+
+"ps -ef | grep tty" to see getty services
+
+4. Odometry : Teleop in Odom frame with Laser scan (linear movement test) - Not so good. But tuned to maximum possible
+5. AMCL params tuning 

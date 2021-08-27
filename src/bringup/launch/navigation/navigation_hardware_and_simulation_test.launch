@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Load the robot model into the parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_hardware_motor.urdf'"/>
+
+  <!-- Launch the gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find my_robot_model)/gazebo_worlds/plaza_world.world"/>
+  </include>
+
+  <!-- Load the robot model in the parameter server into the gazebo world -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model my_robo -param robot_description"/>
+  
+  <!-- Motor Controller -->
+  <node pkg="my_motor_controller" type="motor_driver_ros_interface.py" name="motor_controller_ros" output="screen"/>
+  
+  <!-- Differential Drive Controller  -->
+  <node pkg="differential_driver" type="twist_to_motors.py" name="twist_to_motors" output="screen"/>
+  <node pkg="differential_driver" type="diff_tf.py" name="diff_tf" output="screen"/>
+
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  
+  <!-- Arduino -->
+  <!--node pkg="rosserial_python" name="rosserial_arduino_node" type="serial_node.py" args="/dev/arduino_mega"/-->
+  
+  <!-- Joystick Teleop -->
+  <!--include file="$(find learning_joy)/launch/turtle_joy_hardware.launch"/-->
+  
+  <!-- Joystick Functionalities -->
+  <!--node pkg="custom_scripts" name="robot_interaction" type="robot_interaction.py"/-->
+
+  <!-- RPLidar A1M8 -->
+  <!--include file="$(find rplidar_ros)/launch/rplidar.launch"/-->
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="'$(find my_robot_model)/maps/plaza_world_map.yaml'"/>
+  
+  <!-- AMCL - Localization -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam file="$(find bringup)/config/amcl.yaml" command="load"/>
+  </node>
+
+  <!-- Move Base - Navigation -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find bringup)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/move_base_params.yaml" command="load" />
+
+
+    <!-- GLOBAL PLANNERS -->
+    <!--param name="base_global_planner" value="navfn/NavfnROS" /-->
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    
+    <!-- LOCAL PLANNERS -->
+    <rosparam file="$(find bringup)/config/dwa_local_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+    <!--rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
+
+    <!--rosparam file="$(find bringup)/config/teb_local_planner.yaml" command="load"/-->
+    <!--param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/-->
+
+    <remap from="/cmd_vel" to="/diffbot_controller/cmd_vel"/>
+  </node>
+  
+  <!-- RVIZ  - Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/odom_check.rviz"/>
+  
+</launch>

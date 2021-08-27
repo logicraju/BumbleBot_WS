@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Command Line Argument to Select Mode -->
+  <arg name="mode" default="simulation"/>
+
+  <!-- Joystick Teleop -->
+  <include file="$(find learning_joy)/launch/turtle_joy_$(arg mode).launch"/>
+  
+  <!-- Joystick Functionalities -->
+  <node pkg="custom_scripts" name="robot_interaction" type="robot_interaction.py"/>
+
+</launch>
+
+
+
+

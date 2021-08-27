@@ -1,0 +1,9 @@
+To Enable Compiler Optimizations
+catkin_make -DCMAKE_BUILD_TYPE=Release
+
+To Enable Compiler Optimizations and Reduce the number of Cores (Prevent Compliation from getting stuck)
+Set to j1 or j2. Eg:
+catkin_make -j2 -DCMAKE_BUILD_TYPE=Release
+catkin_make -j1 -DCMAKE_BUILD_TYPE=Release
+
+

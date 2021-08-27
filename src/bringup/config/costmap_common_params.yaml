@@ -1,0 +1,4 @@
+obstacle_range: 3.0 #3.0
+raytrace_range: 3.5 #3.5
+track_unknown_space: true
+map_type: costmap

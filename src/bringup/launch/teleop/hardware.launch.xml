@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- RPLidar A1M8 -->
+  <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+  
+  <!-- Motor Controller -->
+  <node pkg="my_motor_controller" type="motor_driver_ros_interface.py" name="motor_controller_ros" output="screen"/>
+  
+  <!-- Differential Drive Controller  -->
+  <node pkg="differential_driver" type="twist_to_motors.py" name="twist_to_motors" output="screen"/>
+  <!--node pkg="differential_driver" type="diff_tf.py" name="diff_tf" output="screen"/-->
+
+  <!-- Arduino -->
+  <node pkg="rosserial_python" name="rosserial_arduino_node" type="serial_node.py" args="/dev/arduino_mega" />
+
+</launch>

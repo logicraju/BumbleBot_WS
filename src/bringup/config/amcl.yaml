@@ -1,0 +1,48 @@
+# Particle filter:
+min_particles    : 100 #Minimum allowed number of particles.
+max_particles    : 5000 #2000 Maximum allowed number of particles.
+kld_err          : 0.01 #0.05 Maximum error between the true distribution and the estimated distribution. 
+kld_z            : 0.99 #Upper standard normal quantile for (1 - p), where p is the probability that the error on the estimated distrubition will be less than kld_err. 
+update_min_d     : 0.0001 #0.1 Translational movement required before performing a filter update.
+update_min_a     : 0.0001 #0.3 #Rotational movement required before performing a filter update.
+resample_interval: 2 #1 #Number of filter updates required before resampling.
+
+transform_tolerance: 0.75 #0.2
+
+#initial pose
+initial_pose_x : 0.0
+initial_pose_y : 0.0
+initial_pose_a : 0.0
+
+# Recovery:
+recovery_alpha_slow: 0.001 #0.0
+recovery_alpha_fast: 0.1 #0.0
+
+gui_publish_rate   : -1.0
+
+selective_resampling: true
+
+# Measurement (laser) model:
+laser_max_beams          : 30
+laser_z_hit              : 0.95
+laser_z_short            : 0.1 #0.05
+laser_z_max              : 0.05
+laser_z_rand             : 0.05
+laser_sigma_hit          : 0.2
+laser_lambda_short       : 0.1
+laser_likelihood_max_dist: 2.0
+laser_model_type         : likelihood_field
+
+# Odometry model:
+odom_model_type: diff-corrected
+odom_alpha1    : 5.0 #1.0
+odom_alpha2    : 5.0 #0.5
+odom_alpha3    : 5.0 #1.0
+odom_alpha4    : 5.0 #0.5
+# odom_alpha5    : 0.1 #For omni robot only
+
+# Frames:
+odom_frame_id: odom
+base_frame_id: base_footprint
+global_frame_id: map
+tf_broadcast: true

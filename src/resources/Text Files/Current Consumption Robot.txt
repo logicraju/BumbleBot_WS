@@ -1,0 +1,20 @@
+Powered off - 0 A
+
+Motors turned off, navigation launched - 0.46 A max
+
+No Load, Navigation launched = 0.65 A max
+
+on bucket, joystick movement - 0.7 A max
+
+On floor, joystick movement - 0.79 A max
+
+Time Calculation
+
+Battery capacity 5000mAh - 5Ah
+0.8 A full load for Robot running
+
+Total battery time for full load = 
+
+5Ah means, 5 A for 1 hour
+
+Time until battery wears out - 5Ah/0.8A = 6.25 hours

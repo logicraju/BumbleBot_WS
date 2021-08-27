@@ -1,0 +1,9 @@
+[Unit]
+Description=My Robot
+
+[Service]
+User=root
+ExecStart=/home/odroid/My_Robot_V2/src/bringup/scripts/start_robot.sh
+
+[Install]
+WantedBy=multi-user.target
