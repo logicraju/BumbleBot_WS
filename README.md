@@ -1,2 +1,6 @@
 # BumbleBot_WS
-Autonomous Delivery Robot
+BumbleBot:  Home-made autonomous delivery robot
+<br/>
+Author: Rajesh S
+<br/>
+Email: logicraju@gmail.com
