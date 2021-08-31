@@ -45,7 +45,7 @@ import motor_driver
 class MotorClass:
     def __init__(self, port_name, slave_id, encoder_topic_name, velocity_topic_name):
         self.motor = motor_driver.Controller(port_name, slave_id)
-        self.__time_delay = 0.01  # 0.001
+        self.__time_delay = 0.001 # 0.001
         self.encoder_ticks_16bit = self.motor.get_position_16bit()
         self.encoder_ticks_32bit = self.motor.get_position_32bit()
         self.encoder_ticks_32bit_scaled = 0
@@ -77,7 +77,7 @@ class MotorClass:
                 self.__status_rotation_direction = ""
             self.__previous_velocity = self.__current_velocity
 
-            time.sleep(self.__time_delay)
+            #time.sleep(self.__time_delay)
 
     def encoder_transmitter(self):
         #self.encoder_ticks_16bit = self.motor.get_position_16bit()
@@ -85,7 +85,7 @@ class MotorClass:
         if (self.encoder_ticks_16bit is not None) and (self.encoder_ticks_32bit is not None):
             # self.encoder_ticks_pub_16bit.publish(int(self.encoder_ticks_16bit))
             self.encoder_ticks_pub_32bit.publish(int(self.encoder_ticks_32bit))
-        time.sleep(self.__time_delay)
+        #time.sleep(self.__time_delay)
 
 
 if __name__ == '__main__':

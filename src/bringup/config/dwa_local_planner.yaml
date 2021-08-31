@@ -1,16 +1,16 @@
 DWAPlannerROS:
   # Robot configuration parameters
-  acc_lim_x: 0.1 #1.0 #0.15
+  acc_lim_x: 20.0 #1.0 #0.15
   acc_lim_y: 0
-  acc_lim_theta: 1.0
-  acc_lim_trans: 0.15
+  acc_lim_theta: 20.0
+  acc_lim_trans: 25.0 #0.15
 
-  max_vel_x: 2.0
+  max_vel_x: 0.75
   min_vel_x: 0.001
   max_vel_y: 0
   min_vel_y: 0
 
-  max_vel_trans: 2.0
+  max_vel_trans: 0.75
   min_vel_trans: 0.001
   max_vel_theta: 1.0
   min_vel_theta: 0.0

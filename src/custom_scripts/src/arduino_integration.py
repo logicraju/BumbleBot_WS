@@ -28,10 +28,11 @@ class DeliveryApplication:
         if self.first_press_detected:
             time_elapsed = (datetime.now() - self.first_press_time).total_seconds()
             if time_elapsed > 10:
-                self.first_press_detected = False
                 self.press_count = 0
-                self.goal_publisher.publish(self.goal)
                 self.lcd_publisher.publish("Goal Selection    Complete")
+                time.sleep(10)
+                self.goal_publisher.publish(self.goal)
+                self.first_press_detected = False
 
     def callback(self, data):
         if not self.first_press_detected:

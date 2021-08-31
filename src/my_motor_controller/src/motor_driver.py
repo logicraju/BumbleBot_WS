@@ -53,7 +53,7 @@ class Controller:
         self.__instrument.write_timeout = 5  # seconds
         self.__instrument.clear_buffers_before_each_transaction = True
         # self.__instrument.close_port_after_each_call = True
-        self.__time_delay = 0.001  # default: 1 ms
+        self.__time_delay = 0.001 #0.001 # default: 1 ms
         self.__lock_resource = False  # To prevent issuing simultaneous commands to RMCS2303 motor controller. Eg.
         # trying to read encoder value while writing motor enable command
         self.name = self.extract_name_from_port_name(port_name)
