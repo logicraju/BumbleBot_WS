@@ -3,7 +3,7 @@ global_costmap:
   robot_base_frame: base_footprint
   update_frequency: 1.0 # 10.0
   publish_frequency: 1.0 #10.0
-  transform_tolerance: 0.75 #0.5
+  transform_tolerance: 1.0 #0.75 #0.5
   robot_radius: 0.35
   inflation_radius: 0.36
   cost_scaling_factor: 50.0
