@@ -4,7 +4,7 @@ local_costmap:
   robot_radius: 0.15
   update_frequency: 1.0 #10.0
   publish_frequency: 1.0 #10.0
-  transform_tolerance: 1.0 #0.75 #0.5
+  transform_tolerance: 0.75 #1.0 #0.75 #0.5
   static_map: false  
   rolling_window: true
   width: 3 #3

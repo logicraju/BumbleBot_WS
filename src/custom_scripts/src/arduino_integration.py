@@ -81,20 +81,34 @@ class DeliveryApplication:
         self.goal2.pose.orientation.w = 0.697023980672
 
         # Goal3
+        #self.goal3.header.frame_id = 'map'
+        #self.goal3.header.stamp = rospy.Time.now()
+        #self.goal3.pose.position.x = 5.53890752792
+        #self.goal3.pose.position.y = 0.579120635986
+        #self.goal3.pose.orientation.z = -0.708675695394
+        #self.goal3.pose.orientation.w = 0.705534378155
+
         self.goal3.header.frame_id = 'map'
         self.goal3.header.stamp = rospy.Time.now()
-        self.goal3.pose.position.x = 5.53890752792
-        self.goal3.pose.position.y = 0.579120635986
-        self.goal3.pose.orientation.z = -0.708675695394
-        self.goal3.pose.orientation.w = 0.705534378155
+        self.goal3.pose.position.x = 0.0399286746979
+        self.goal3.pose.position.y = -0.071713924408
+        self.goal3.pose.orientation.z = -0.00775012578072
+        self.goal3.pose.orientation.w = 0.999969967324
 
         # Home
+        #self.home.header.frame_id = 'map'
+        #self.home.header.stamp = rospy.Time.now()
+        #self.home.pose.position.x = 0.0399286746979
+        #self.home.pose.position.y = -0.071713924408
+        #self.home.pose.orientation.z = -0.00775012578072
+        #self.home.pose.orientation.w = 0.999969967324
+
         self.home.header.frame_id = 'map'
         self.home.header.stamp = rospy.Time.now()
-        self.home.pose.position.x = 0.0399286746979
-        self.home.pose.position.y = -0.071713924408
-        self.home.pose.orientation.z = -0.00775012578072
-        self.home.pose.orientation.w = 0.999969967324
+        self.home.pose.position.x = 5.53890752792
+        self.home.pose.position.y = 0.579120635986
+        self.home.pose.orientation.z = -0.708675695394
+        self.home.pose.orientation.w = 0.705534378155
 
         self.goals = [self.home, self.goal1, self.goal2, self.goal3]
 

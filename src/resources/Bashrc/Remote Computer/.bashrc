@@ -122,9 +122,9 @@ source /home/rajesh/ROS_Workspaces/My_Robot_V2/devel/setup.bash
 #source /home/rajesh/ROS_Workspaces/rhino_motor_controller/devel/setup.bash
 
 #WORKSTATION NETWORK CONFIGURATION
-export ROS_MASTER_URI=http://192.168.1.9:11311
-export ROS_HOSTNAME=192.168.1.8
-export ROS_IP=192.168.1.8
+export ROS_MASTER_URI=http://192.168.1.10:11311
+export ROS_HOSTNAME=192.168.1.6
+export ROS_IP=192.168.1.6
 echo "ROS_HOSTNAME: "$ROS_HOSTNAME
 echo "ROS_IP: "$ROS_IP
 echo "ROS_MASTER_URI: "$ROS_MASTER_URI

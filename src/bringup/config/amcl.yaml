@@ -10,9 +10,12 @@ resample_interval: 2 #1 #Number of filter updates required before resampling.
 transform_tolerance: 0.75 #0.2
 
 #initial pose
-initial_pose_x : 0.0
-initial_pose_y : 0.0
-initial_pose_a : 0.0
+#initial_pose_x : 0.0
+#initial_pose_y : 0.0
+#initial_pose_a : 0.0
+initial_pose_x : 5.53890752792
+initial_pose_y : 0.579120635986
+initial_pose_a : -1.5752388
 
 # Recovery:
 recovery_alpha_slow: 0.001 #0.0
