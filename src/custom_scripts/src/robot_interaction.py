@@ -41,12 +41,12 @@ class RobotInteraction:
             print("Button X")
             self.lcd_publisher.publish("Moving to Goal1")
             time.sleep(1)
-            self.goal_publisher.publish(self.goal1)
+            #self.goal_publisher.publish(self.goal1)
         elif data.buttons[4] == 1:
             print("Button LB")
             self.lcd_publisher.publish("Moving to Home")
             time.sleep(1)
-            self.goal_publisher.publish(self.goal2)
+            #self.goal_publisher.publish(self.goal2)
         elif data.buttons[5] == 1:
             print("Button RB")
             self.lcd_publisher.publish("Moving to Goal3")
@@ -56,7 +56,7 @@ class RobotInteraction:
             print("Button LT")
             self.lcd_publisher.publish("Moving to Home")
             time.sleep(1)
-            self.goal_publisher.publish(self.home)
+            #self.goal_publisher.publish(self.home)
         elif data.buttons[7] == 1:
             print("Button RT")
             self.led_publisher.publish("none")
