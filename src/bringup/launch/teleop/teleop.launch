@@ -8,7 +8,8 @@
   <arg name="device" default="android" doc="available devices: [keyboard, joystick, android]"/>
 
   <!-- Load the robot model into the parameter server -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_$(arg mode).urdf'"/>
+  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_$(arg mode).urdf'"/>
+  <param name="robot_description" command="$(arg urdf_file)" />
 
   <!-- Launch Hardware/Simulation Specific Modules -->
   <include file="$(find bringup)/launch/teleop/$(arg mode).launch.xml"/>
