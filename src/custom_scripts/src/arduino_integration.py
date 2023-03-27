@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Gets feedback from Move Base and triggers arduino functions
 
