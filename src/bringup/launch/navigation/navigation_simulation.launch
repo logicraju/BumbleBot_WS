@@ -2,7 +2,8 @@
 <launch>
 
   <!-- Load the robot model into the parameter server -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_simulation.urdf'"/>
+  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_simulation.urdf'"/>
+  <param name="robot_description" command="$(arg urdf_file)" />
 
   <!-- Launch the gazebo world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
