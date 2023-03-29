@@ -42,11 +42,11 @@
     <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
     
     <!-- LOCAL PLANNERS -->
-    <!--rosparam file="$(find bringup)/config/dwa_local_planner.yaml" command="load" />
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/-->
+    <rosparam file="$(find bringup)/config/dwa_local_planner.yaml" command="load" />
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
 
-    <rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load" />
-    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+    <!--rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load" />
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
 
     <!--rosparam file="$(find bringup)/config/teb_local_planner.yaml" command="load" />
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /-->
