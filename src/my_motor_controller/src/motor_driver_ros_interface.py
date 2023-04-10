@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Rhino Motor Driver (RMCS 2303) - ROS INTERFACE
 # ----------------------------------------------
