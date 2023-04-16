@@ -115,19 +115,15 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-source /opt/ros/melodic/setup.bash
-source /home/odroid/My_Robot_V2/devel/setup.bash
-
+source /opt/ros/noetic/setup.bash
+source /home/odroid/BumbleBot_WS/devel/setup.bash
 #ROBOT NETWORK CONFIGURATION
+robot_ip=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
 export ROS_MASTER_URI=http://localhost:11311
-export ROS_HOSTNAME=192.168.1.10
-export ROS_IP=192.168.1.10
+export ROS_HOSTNAME=$robot_ip
+export ROS_IP=$robot_ip
 echo "ROBOT"
 echo "ROS_HOSTNAME: "$ROS_HOSTNAME
 echo "ROS_IP: "$ROS_IP
 echo "ROS_MASTER_URI: "$ROS_MASTER_URI
-#export PYTHONPATH=/home/odroid/.local/lib/python2.7/site-packages
-#export PYTHONPATH=/home/odroid/My_Robot_V2/devel/lib/python2.7/dist-packages
-export PYTHONPATH=$PYTHONPATH:/home/odroid/My_Robot_V2/devel/lib/python2.7/dist-packages:/home/odroid/.local/lib/python2.7/site-packages:/usr/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages
-
+echo $robot_ip

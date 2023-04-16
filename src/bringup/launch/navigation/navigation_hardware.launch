@@ -67,6 +67,6 @@
   </node>
   
   <!-- RVIZ  - Visualization -->
-  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_navigation.rviz"/-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_navigation.rviz"/>
   
 </launch>
