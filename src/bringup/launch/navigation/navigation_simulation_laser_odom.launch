@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Load the robot model into the parameter server -->
+  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_simulation_without_odom.urdf'"/>
+  <param name="robot_description" command="$(arg urdf_file)" />
+
+  <!-- Launch the gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find my_robot_model)/gazebo_worlds/plaza_world.world"/>
+  </include>
+
+  <!-- Load the robot model in the parameter server into the gazebo world -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model my_robo -param robot_description"/>
+
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- RVIZ  - Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_navigation.rviz"/>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="'$(find my_robot_model)/maps/plaza_world_map.yaml'"/>
+
+  <!-- Odom Node -->
+  <include file="$(find rf2o_laser_odom)/launch/rf2o_laser_odometry.launch"/>
+
+  <!-- AMCL - Localization -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <param name="odom_frame_id"             value="odom"/>
+    <param name="base_frame_id"             value="base_footprint"/>
+  </node>
+
+  <!-- Move Base - Navigation -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find bringup)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/global_planner_params.yaml" command="load" />
+
+    <!-- GLOBAL PLANNERS -->
+    <!--param name="base_global_planner" value="navfn/NavfnROS" /-->
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    
+    <!-- LOCAL PLANNERS -->
+    <rosparam file="$(find bringup)/config/dwa_local_planner.yaml" command="load" />
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+    <!--rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load" />
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
+
+    <!--rosparam file="$(find bringup)/config/teb_local_planner.yaml" command="load" />
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /-->
+  </node>
+
+</launch>

@@ -301,7 +301,7 @@ Visualization Manager:
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 255; 25; 0
-      Enabled: false
+      Enabled: true
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: PoseArray
@@ -311,7 +311,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /particlecloud
       Unreliable: false
-      Value: false
+      Value: true
     - Angle Tolerance: 0.10000000149011612
       Class: rviz/Odometry
       Covariance:
@@ -351,7 +351,7 @@ Visualization Manager:
   Global Options:
     Background Color: 71; 96; 106
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -383,17 +383,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.6057572364807129
-        Y: 0.09551667422056198
-        Z: -1.0372244119644165
+        X: 0.06406475603580475
+        Y: -0.49020135402679443
+        Z: -0.6518766283988953
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9853975176811218
+      Pitch: 0.990397572517395
       Target Frame: <Fixed Frame>
-      Yaw: 1.5672123432159424
+      Yaw: 1.5672122240066528
     Saved: ~
 Window Geometry:
   Displays:
@@ -412,4 +412,4 @@ Window Geometry:
     collapsed: true
   Width: 1920
   X: 1080
-  Y: 27
+  Y: 477
