@@ -26,8 +26,8 @@
   <node pkg="map_server" name="map_server" type="map_server" args="'$(find my_robot_model)/maps/plaza_world_map.yaml'"/>
 
   <!-- Odom Node -->
-  <include file="$(find rf2o_laser_odom)/launch/rf2o_laser_odometry.launch"/>
-  <!--include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch"/-->
+  <!--include file="$(find rf2o_laser_odom)/launch/rf2o_laser_odometry.launch"/-->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch"/>
 
   <!-- AMCL - Localization -->
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
