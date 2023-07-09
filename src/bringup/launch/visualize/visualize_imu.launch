@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- Load the robot model into the parameter server -->
+	<arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_simulation_imu.urdf'" />
+	<param name="robot_description" command="$(arg urdf_file)" />
+	
+
+	<!-- Robot State Publisher - Uses URDF and Joint States to compute Forward Kinematics as Transforms -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+	
+	<!-- Joint State Publisher - Publishes Joint Positions -->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+	<!-- RViz - For Visualization -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo.rviz"/>
+
+</launch>

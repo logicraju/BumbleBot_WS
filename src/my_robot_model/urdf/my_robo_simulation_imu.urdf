@@ -264,6 +264,36 @@
     <axis xyz="0 0 0" />
   </joint>
 
+    <!--========================================== IMU LINK ==========================================-->
+  <link name="imu_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0093378" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" /> 
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.01 0.02"/>
+      </geometry>
+      <material name="Red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.01 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!--========================================== IMU JOINT ==========================================-->
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0.0075 0.0 0.25" rpy="0 0 3.14" />
+    <parent link="base_link" />
+    <child link="imu_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
 
   <!--========================================== GAZEBO TAGS ==========================================-->
   <gazebo reference="base_link">
@@ -295,6 +325,28 @@
   </gazebo>
 
 
+  <!--============================================= IMU PLUGIN - GAZEBO =============================================-->
+  <gazebo reference="imu_link">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu_data</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
   <!--========================================== DIFF DRIVE PLUGIN - GAZEBO ==========================================-->
 
 	<gazebo>
@@ -316,9 +368,9 @@
 		<!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
 		<commandTopic>cmd_vel</commandTopic>
 		<!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
-		<odometryTopic>odom_unused</odometryTopic>
+		<odometryTopic>odom_diff_drive</odometryTopic>
 		<!-- Odometry frame, defaults to `odom` -->
-		<odometryFrame>odom_unused</odometryFrame>
+		<odometryFrame>odom_diff_drive</odometryFrame>
 		<!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
 		<robotBaseFrame>base_footprint</robotBaseFrame>
 		<!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
@@ -326,9 +378,10 @@
 		<!-- Set to true to publish transforms for the wheel links, defaults to false -->
 		<publishWheelTF>false</publishWheelTF>
 		<!-- Set to true to publish transforms for the odometry, defaults to true -->
-    <publishOdom>false</publishOdom>
+		<publishOdom>true</publishOdom>
 		<publishOdomTF>false</publishOdomTF>
-		<publishTF>false</publishTF>
+		<!--publishTF>false</publishTF-->
+
 		<!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
 		<publishWheelJointState>false</publishWheelJointState>
 		<!-- Set to true to swap right and left wheels, defaults to true -->
