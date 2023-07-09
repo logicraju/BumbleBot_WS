@@ -26,7 +26,7 @@
   <node pkg="map_server" name="map_server" type="map_server" args="'$(find my_robot_model)/maps/plaza_world_map.yaml'"/>
 
   <!-- Sensor Fusion: To combine odometry and IMU data -->
-  <include file="$(find robot_pose_ekf)/robot_pose_ekf.launch"/>
+  <include file="$(find robot_pose_ekf)/launch/robot_pose_ekf.launch"/>
 
   <!-- AMCL - Localization -->
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
