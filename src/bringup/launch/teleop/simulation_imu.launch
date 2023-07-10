@@ -20,7 +20,7 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <!-- RVIZ  - Visualization -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_navigation.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_imu.rviz"/>
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="'$(find my_robot_model)/maps/plaza_world_map.yaml'"/>
@@ -31,29 +31,6 @@
   <!-- AMCL - Localization -->
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
       <rosparam file="$(find bringup)/config/amcl_fusion.yaml" command="load"/>
-  </node>
-
-  <!-- Move Base - Navigation -->
-  <node pkg="move_base" type="move_base" name="move_base" output="screen">
-    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
-    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
-    <rosparam file="$(find bringup)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find bringup)/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find bringup)/config/global_planner_params.yaml" command="load" />
-
-    <!-- GLOBAL PLANNERS -->
-    <!--param name="base_global_planner" value="navfn/NavfnROS" /-->
-    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
-    
-    <!-- LOCAL PLANNERS -->
-    <rosparam file="$(find bringup)/config/dwa_local_planner.yaml" command="load" />
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
-
-    <!--rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load" />
-    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
-
-    <!--rosparam file="$(find bringup)/config/teb_local_planner.yaml" command="load" />
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /-->
   </node>
 
   <!-- Keyboard Teleop -->
