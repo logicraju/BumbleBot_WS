@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple JavaScript Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black; /* Set the background color to black */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: white; /* Set the title text color to white */
+        }
+
+        button {
+            margin: 5px;
+        }
+
+        /* Style for the text box container */
+        .text-box-container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Style for the status label */
+        label {
+            color: white;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        /* Style for the text box */
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bumblebot Commander</h1>
+
+        <!-- Buttons for the goals -->
+        <button onclick="publishMoveBaseGoal(1)">Goal 1</button>
+        <button onclick="publishMoveBaseGoal(2)">Goal 2</button>
+        <button onclick="publishMoveBaseGoal(3)">Goal 3</button>
+        <button onclick="publishMoveBaseGoal(4)">Goal 4</button>
+        <button onclick="publishMoveBaseGoal(5)">Home</button>
+
+        <br><br>
+
+        <!-- Text box container with status label -->
+        <div class="text-box-container">
+            <label>Status:</label>
+            <input type="text" id="textBox" placeholder="Enter text here">
+        </div>
+    </div>
+
+    <!-- Add the roslib.js script -->
+    <script src="http://localhost:8000/ROS_Workspaces/ROS1/BumbleBot_WS/src/roslibjs/build/roslib.min.js"></script>
+
+    <script>
+        // Initialize ROS
+        const ros = new ROSLIB.Ros({
+            url: 'ws://localhost:9090' // Replace with your ROS bridge URL
+        });
+
+        // JavaScript code remains the same
+        const textBox = document.getElementById('textBox');
+        // Update the text box with initial status
+        textBox.value = `Waiting for goal ...`;
+
+        // Function to publish geometry_msgs/PoseStamped message
+        function publishMoveBaseGoal(goalNumber) {
+            const topic = new ROSLIB.Topic({
+                ros: ros,
+                name: '/move_base_simple/goal',
+                messageType: 'geometry_msgs/PoseStamped'
+            });
+
+            const message = new ROSLIB.Message({
+                header: {
+                    seq: 0,
+                    stamp: {
+                        sec: 0,
+                        nsec: 0
+                    },
+                    frame_id: 'map'
+                },
+                pose: {
+                    position: {
+                        x: 0.0,
+                        y: 0.0,
+                        z: 0.0
+                    },
+                    orientation: {
+                        x: 0.0,
+                        y: 0.0,
+                        z: 0.0,
+                        w: 1.0
+                    }
+                }
+            });
+
+            // Update the goal coordinates based on the goal number
+            switch (goalNumber) {
+                case 1:
+                    message.pose.position.x = 2.518761396408081;
+                    message.pose.position.y = -1.5656793117523193;
+                    break;
+                case 2:
+                    message.pose.position.x = -1.1461883783340454;
+                    message.pose.position.y = -1.8758769035339355;
+                    break;
+                case 3:
+                    message.pose.position.x = -1.2489650249481201;
+                    message.pose.position.y = 2.0988407135009766;
+                    break;
+                case 4:
+                    message.pose.position.x = 2.5786406993865967;
+                    message.pose.position.y = 2.017167329788208;
+                    break;
+                case 5:
+                    message.pose.position.x = 0.0;
+                    message.pose.position.y = 0.0;
+                    break;
+                default:
+                    console.log('Invalid goal number.');
+                    return;
+            }
+
+            topic.publish(message);
+        }
+
+        // Function to subscribe to /move_base/status topic
+        function subscribeToMoveBaseStatus() {
+            const topic = new ROSLIB.Topic({
+                ros: ros,
+                name: '/move_base/status',
+                messageType: 'actionlib_msgs/GoalStatusArray'
+            });
+
+            topic.subscribe(function(message) {
+                if (message.status_list && message.status_list.length > 0) {
+                    // Get the status code of the latest status
+                    const statusCode = message.status_list[message.status_list.length - 1].status;
+
+                    // Display specific messages based on status code
+                    switch (statusCode) {
+                        case 1:
+                            textBox.value = "Goal Received";
+                            break;
+                        case 3:
+                            textBox.value = "Goal Reached !";
+                            break;
+                        default:
+                            textBox.value = "Error...";
+                            break;
+                    }
+                }
+            });
+        }
+
+        // Subscribe to /move_base/status topic
+        subscribeToMoveBaseStatus();
+    </script>
+</body>
+</html>
