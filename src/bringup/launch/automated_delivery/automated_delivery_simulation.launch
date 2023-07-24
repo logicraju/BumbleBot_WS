@@ -52,7 +52,7 @@
   </node>
   
   <!-- Http Server -->
-  <node name="http_server_node" pkg="bringup" type="start_http_server.sh" output="screen" />
+  <node name="http_server_node" pkg="web_interface" type="start_http_server.sh" output="screen" />
 
   <!-- Rosbridge Server -->
   <node pkg="rosbridge_server" type="rosbridge_websocket" name="rosbridge_server" output="screen">
