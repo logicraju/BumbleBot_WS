@@ -3,8 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
+      Expanded: ~
       Splitter Ratio: 0.6666666865348816
     Tree Height: 718
   - Class: rviz/Selection
@@ -24,7 +23,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -69,6 +68,19 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         front_castor_wheel_link:
           Alpha: 1
           Show Axes: false
@@ -133,6 +145,62 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Filter (blacklist): ""
+      Filter (whitelist): ""
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        base_footprint:
+          Value: false
+        base_link:
+          Value: true
+        camera_link:
+          Value: true
+        camera_rgb_frame:
+          Value: true
+        camera_rgb_optical_frame:
+          Value: true
+        front_castor_wheel_link:
+          Value: false
+        laser_link:
+          Value: false
+        left_wheel_link:
+          Value: false
+        rear_castor_wheel_link:
+          Value: false
+        right_wheel_link:
+          Value: false
+        robot_body_link:
+          Value: false
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        base_footprint:
+          base_link:
+            camera_link:
+              camera_rgb_frame:
+                camera_rgb_optical_frame:
+                  {}
+            front_castor_wheel_link:
+              {}
+            laser_link:
+              {}
+            left_wheel_link:
+              {}
+            rear_castor_wheel_link:
+              {}
+            right_wheel_link:
+              {}
+            robot_body_link:
+              {}
+      Update Interval: 0
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 71; 96; 106
@@ -161,7 +229,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.299637794494629
+      Distance: 2.0570785999298096
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -169,17 +237,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -0.5985298752784729
-        Y: -0.5462245941162109
-        Z: -0.32593438029289246
+        X: -0.16888956725597382
+        Y: -0.600395143032074
+        Z: -0.30479273200035095
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7703976631164551
+      Pitch: 0.495397686958313
       Target Frame: <Fixed Frame>
-      Yaw: 0.17221824824810028
+      Yaw: 1.397212028503418
     Saved: ~
 Window Geometry:
   Displays:
@@ -198,4 +266,4 @@ Window Geometry:
     collapsed: true
   Width: 1920
   X: 1080
-  Y: 569
+  Y: 477

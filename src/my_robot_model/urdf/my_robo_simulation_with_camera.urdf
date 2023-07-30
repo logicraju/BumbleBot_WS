@@ -1,0 +1,448 @@
+<?xml version="1.0"?>	
+<robot name="robot">
+
+  <!--===== Defining all colours here =====-->
+  <material name="Orange">
+    <color rgba="0.5 0.2 0.0 1" />
+  </material>
+  <material name="Yellow">
+    <color rgba="0.5 0.5 0.0 1" />
+  </material>
+  <material name="Red">
+    <color rgba="0.5 0.0 0.0 1" />
+  </material>
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.4 1" />
+  </material>
+  <material name="Green">
+    <color rgba="0.0 0.4 0.0 1" />
+  </material>
+  <material name="White">
+    <color rgba="1 1 1 1" />
+  </material>
+
+  <!--BASE FOOTPRINT-->
+  <link name="base_footprint" />
+
+  <!--========================================== BASE LINK ==========================================-->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="70.0" />
+      <inertia ixx="0.079945" ixy="0.00012078" ixz="0.00015606" iyy="0.068406" iyz="-0.0049053" izz="0.12343" />
+    </inertial>
+  <visual>
+    <origin xyz="0 0 -0.015" rpy="0 0 -1.57" />
+    <geometry>
+      <mesh filename="package://my_robot_model/urdf/meshes/Base_Plate.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="Blue" />
+  </visual>
+  <collision>
+    <origin xyz="0 0 -0.015" rpy="0 0 -1.57" />
+    <geometry>
+      <mesh filename="package://my_robot_model/urdf/meshes/Base_Plate.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+
+  <!--========================================== BASE JOINT ==========================================-->
+  <joint name="base_joint" type="fixed">
+    <origin xyz="0 0 0.05335" rpy="0 0 0" />
+    <parent link="base_footprint" />
+    <child link="base_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+  <!--========================================== ROBOT BODY LINK ==========================================-->
+  <link name="robot_body_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="70.0" />
+      <inertia ixx="0.079945" ixy="0.00012078" ixz="0.00015606" iyy="0.068406" iyz="-0.0049053" izz="0.12343" />
+    </inertial>
+  <visual>
+    <origin xyz="0.0 0 -0.19125" rpy="0 0 -1.57" />
+    <geometry>
+      <mesh filename="package://my_robot_model/urdf/meshes/Robot_Cover_Full.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="Yellow" />
+  </visual>
+  <collision>
+    <origin xyz="0.0 0 -0.19125" rpy="0 0 -1.57" />
+    <geometry>
+      <mesh filename="package://my_robot_model/urdf/meshes/Robot_Cover_Full.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <!--========================================== ROBOT BODY JOINT ==========================================-->
+  <joint name="robot_body_joint" type="fixed">
+    <origin xyz="0 0 0.175" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="robot_body_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <!--========================================== RIGHT WHEEL LINK ==========================================-->
+  <link name="right_wheel_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="0.50917" />
+      <inertia ixx="0.0012185" ixy="1.8059E-20" ixz="3.0427E-20" iyy="0.0012185" iyz="-4.0491E-20" izz="0.0022928" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.03" radius="0.04" />
+      </geometry>
+      <material name="Red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.03" radius="0.04" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--========================================== RIGHT WHEEL JOINT ==========================================-->
+  <joint name="right_wheel_joint" type="continuous">
+    <origin xyz="0.0 -0.12 0.01" rpy="1.571 0 0" />
+    <parent link="base_link" />
+    <child link="right_wheel_link" />
+    <axis xyz="0 0 -1" />
+  </joint>
+
+  <!--transmission name="right_wheel_trans" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_joint">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission-->
+
+
+
+
+  <!--========================================== LEFT WHEEL LINK ==========================================-->
+  <link name="left_wheel_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="0.50917" />
+      <inertia ixx="0.0012185" ixy="1.8059E-20" ixz="3.0427E-20" iyy="0.0012185" iyz="-4.0491E-20" izz="0.0022928" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.03" radius="0.04" />
+      </geometry>
+      <material name="Red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.03" radius="0.04" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--========================================== LEFT WHEEL JOINT ==========================================-->
+  <joint name="left_wheel_joint" type="continuous">
+    <origin xyz="0.0 0.12 0.01" rpy="-1.571 0 0" />
+    <parent link="base_link" />
+    <child link="left_wheel_link" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <!--transmission name="left_wheel_trans" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="left_wheel_joint">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission-->
+
+
+
+
+  <!--=============================================== FRONT CASTOR WHEEL LINK ===============================================-->
+  <link name="front_castor_wheel_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="0.50917" />
+      <inertia ixx="0.0012185" ixy="1.8059E-20" ixz="3.0427E-20" iyy="0.0012185" iyz="-4.0491E-20" izz="0.0022928" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.03" />
+      </geometry>
+      <material name="Red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.03" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--============================================ FRONT CASTOR WHEEL JOINT ============================================-->
+  <joint name="front_castor_wheel_joint" type="continuous">
+    <origin xyz="0.07 0.0 0.0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="front_castor_wheel_link" />
+    <axis xyz="0 1 1" />
+  </joint>
+
+
+  <!--=============================================== REAR CASTOR WHEEL LINK ===============================================-->
+  <link name="rear_castor_wheel_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="0.50917" />
+      <inertia ixx="0.0012185" ixy="1.8059E-20" ixz="3.0427E-20" iyy="0.0012185" iyz="-4.0491E-20" izz="0.0022928" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.03" />
+      </geometry>
+      <material name="Red" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.03" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--============================================ REAR CASTOR WHEEL JOINT ============================================-->
+  <joint name="rear_castor_wheel_joint" type="continuous">
+    <origin xyz="-0.07 0.0 0.0" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="rear_castor_wheel_link" />
+    <axis xyz="0 1 1" />
+  </joint>
+
+
+  <!--========================================== LASER LINK ==========================================-->
+  <link name="laser_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0093378" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" /> 
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.046" radius="0.035" />
+      </geometry>
+      <material name="Green" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <cylinder length="0.046" radius="0.035" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!--========================================== LASER JOINT ==========================================-->
+  <joint name="laser_joint" type="fixed">
+    <origin xyz="0.0075 0.0 0.35" rpy="0 0 3.14" />
+    <parent link="base_link" />
+    <child link="laser_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+<!--========================================== CAMERA LINKS & JOINTS ==========================================-->
+   <joint name="camera_joint" type="fixed">
+    <origin xyz="0.040 -0.011 0.130" rpy="0 -0.174 0"/>
+    <!--origin xyz="0.040 -0.011 0.130" rpy="0 0.174 0"/-->
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <link name="camera_link">
+    <collision>
+      <origin xyz="0.005 0.011 0.013" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.015 0.030 0.027"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="camera_rgb_joint" type="fixed">
+    <!--origin xyz="0.003 0.011 0.009" rpy="0 0 0"/-->
+    <origin xyz="-0.153 0.011 0.009" rpy="0 0 3.14"/>
+    <parent link="camera_link"/>
+    <child link="camera_rgb_frame"/>
+  </joint>
+  <link name="camera_rgb_frame"/>
+
+  <joint name="camera_rgb_optical_joint" type="fixed">
+    <!--origin xyz="0.11 0 0" rpy="0 0 0"/-->
+    <origin xyz="0.0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_rgb_frame"/>
+    <child link="camera_rgb_optical_frame"/>
+  </joint>
+  <link name="camera_rgb_optical_frame"/>
+
+
+
+  <!--========================================== GAZEBO TAGS ==========================================-->
+  <gazebo reference="base_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  
+  <gazebo reference="robot_body_link">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="front_castor_wheel_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+  
+  <gazebo reference="rear_castor_wheel_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="laser_link">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+
+  <!--========================================== DIFF DRIVE PLUGIN - GAZEBO ==========================================-->
+
+	<gazebo>
+	  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+		<!-- Plugin update rate in Hz -->
+		<updateRate>10</updateRate>
+		<!-- Name of left joint, defaults to `left_joint` -->
+		<leftJoint>left_wheel_joint</leftJoint>
+		<!-- Name of right joint, defaults to `right_joint` -->
+		<rightJoint>right_wheel_joint</rightJoint>
+		<!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+		<wheelSeparation>0.23</wheelSeparation>
+		<!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+		<wheelDiameter>0.085</wheelDiameter>
+		<!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+		<wheelAcceleration>0.75</wheelAcceleration>
+		<!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+		<wheelTorque>500</wheelTorque>
+		<!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+		<commandTopic>cmd_vel</commandTopic>
+		<!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+		<odometryTopic>odom</odometryTopic>
+		<!-- Odometry frame, defaults to `odom` -->
+		<odometryFrame>odom</odometryFrame>
+		<!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+		<robotBaseFrame>base_footprint</robotBaseFrame>
+		<!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+		<odometrySource>1</odometrySource>
+		<!-- Set to true to publish transforms for the wheel links, defaults to false -->
+		<publishWheelTF>false</publishWheelTF>
+		<!-- Set to true to publish transforms for the odometry, defaults to true -->
+		<publishOdom>true</publishOdom>
+		<!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+		<publishWheelJointState>false</publishWheelJointState>
+		<!-- Set to true to swap right and left wheels, defaults to true -->
+		<legacyMode>false</legacyMode>
+	  </plugin>
+	</gazebo>
+
+
+
+  <!--========================================== LIDAR PLUGIN - GAZEBO ==========================================-->
+  <!--Sample size of 4000 (original value of RPLidarA1M8) gives an error-->
+  <gazebo reference="laser_link">
+      <!--sensor type="gpu_ray" name="laser"-->
+      <sensor type="ray" name="laser">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>false</visualize>
+          <update_rate>40</update_rate>
+          <ray>
+              <scan>
+                  <horizontal>
+                      <samples>720</samples>
+                      <resolution>1</resolution>
+                      <min_angle>0</min_angle>
+                      <max_angle>6.28</max_angle>
+                  </horizontal>
+              </scan>
+              <range>
+                  <min>0.1</min>
+                  <max>6</max>
+                  <resolution>0.1</resolution>
+              </range>
+          </ray>
+          <!--plugin name="gpu_laser" filename="libgazebo_ros_gpu_laser.so"-->
+          <plugin name="gpu_laser" filename="libgazebo_ros_laser.so">
+              <topicName>/scan</topicName>
+              <frameName>laser_link</frameName>
+          </plugin>
+      </sensor>
+  </gazebo>
+
+
+
+
+  <!--========================================== JOINT STATE PUBLISHER PLUGIN - GAZEBO ==========================================-->
+     <!--gazebo>
+        <plugin name="joint_state_publisher"
+                filename="libgazebo_ros_joint_state_publisher.so">
+            <jointName>left_wheel_joint, right_wheel_joint, castor_wheel_joint</jointName>
+        </plugin>
+    </gazebo-->
+
+  <!--========================================== CAMERA PLUGIN - GAZEBO ==========================================-->
+  <gazebo reference="camera_rgb_frame">
+    <sensor type="camera" name="Pi Camera">
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <camera>
+          <horizontal_fov>1.085595</horizontal_fov>
+          <image>
+              <width>320</width>
+              <height>240</height>
+              <format>R8G8B8</format>
+          </image>
+          <clip>
+              <near>0.03</near>
+              <far>100</far>
+          </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>30.0</updateRate>
+        <cameraName>camera</cameraName>
+        <frameName>camera_rgb_optical_frame</frameName>
+        <imageTopicName>image</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+</robot>

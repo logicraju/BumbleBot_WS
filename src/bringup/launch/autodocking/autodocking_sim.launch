@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Global param -->
+  <arg name="autodock_server" default="true"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="debug_mode" default="true" doc="Use this to have aruco detections always ON (publish fiducial images always) and other useful visualization markers. Turn OFF for better performance in deployment."/>
+
+  <!-- Load the robot model into the parameter server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find my_robot_model)/urdf/my_robo_simulation_with_camera.urdf'"/>
+
+  <!-- Launch the gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find my_robot_model)/gazebo_worlds/plaza_world.world"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+    <env name="GAZEBO_MODEL_PATH" value="$(find autodock_sim)/models" />   
+  </include>
+
+  <!-- Load the robot model in the parameter server into the gazebo world -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model my_robo -param robot_description"/>
+  
+  <!-- Joint State Publisher - Publishes Joint Positions -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher  - Uses URDF and Joint States to compute Transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="'$(find my_robot_model)/maps/plaza_world_map.yaml'"/>
+  
+  <!-- AMCL - Localization -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam file="$(find bringup)/config/amcl.yaml" command="load"/>
+  </node>
+
+  <!-- Move Base - Navigation -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find bringup)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find bringup)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find bringup)/config/move_base_params.yaml" command="load" />
+
+    <!-- GLOBAL PLANNERS -->
+    <!--param name="base_global_planner" value="navfn/NavfnROS" /-->
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    
+    <!-- LOCAL PLANNERS -->
+    <rosparam file="$(find bringup)/config/dwa_local_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+    <!--rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
+
+    <!--rosparam file="$(find bringup)/config/teb_local_planner.yaml" command="load"/-->
+    <!--param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/-->
+
+  </node>
+  
+  <!-- Http Server -->
+  <node name="http_server_node" pkg="bringup" type="start_http_server.sh" output="screen" />
+
+  <!-- Rosbridge Server -->
+  <node pkg="rosbridge_server" type="rosbridge_websocket" name="rosbridge_server" output="screen">
+    <!-- Set the port for the websocket server (default: 9090) -->
+    <param name="port" type="int" value="9090"/>
+  </node>
+
+  <!-- RVIZ  - Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robot_model)/rviz/my_robo_autodocking.rviz"/>
+
+
+  <!--======================================================= AutoDocking Stuff =======================================================-->
+
+  <!-- Launch AutoDock Server Node -->
+  <group if="$(arg autodock_server)">
+    <include file="$(find autodock_core)/launch/autodock_server.launch">
+      <arg name="autodock_config" default="$(find autodock_examples)/configs/bumblebot.yaml"/>
+      <!--arg name="autodock_config" default="$(find autodock_examples)/configs/mock_robot.yaml"/-->
+      <arg name="debug_mode" value="$(arg debug_mode)" />
+    </include>
+  </group>
+
+  <!-- launch fiducial detect  -->
+  <node pkg="aruco_detect" name="aruco_detect"
+        type="aruco_detect" output="log" respawn="false">
+    <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+    <param name="image_transport" value="compressed"/>
+    <param name="publish_images" value="true" />
+    <param name="dictionary" value="8"/>
+    <param name="do_pose_estimation" value="true"/>
+    <param name="verbose" value="false"/>
+    <param name="fiducial_len_override" value="10: 0.1, 11: 0.1, 20: 0.04"/>
+    <remap from="camera/compressed" to="camera/image/compressed"/>
+    <remap from="camera_info" to="camera/camera_info"/>
+  </node>
+
+  <!-- obstacle observer node  -->
+  <node type="obstacle_observer"
+        name="obstacle_observer" pkg="autodock_core" output="screen">
+    <param name="vicinity_radius" value="0.16"/>
+    <param name="coverage_percent" value="0.35"/>
+    <param name="occupancy_prob" value="70"/>
+    <param name="base_link_name" value="base_link"/>
+    <remap from="/move_base/global_costmap/local_costmap" to="/move_base/local_costmap/costmap"/>
+  </node>
+
+  <!-- spawn the mini mock charger -->
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_model"
+        args="-sdf -database MiniMockCharger -model charger -x -0.5" />
+
+  <!-- tf from robot base to camera -->
+  <!-- slightly "roll" more than 90 degress as the camera is tilted downwards -->
+  <!--node pkg="tf2_ros" 
+        type="static_transform_publisher"
+        name="link1_broadcaster"
+        args="0.11 0 .16 -1.57 0 -1.67 base_footprint camera_rgb_optical_frame"/-->
+</launch>
