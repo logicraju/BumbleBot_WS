@@ -62,7 +62,7 @@
   </node>
   
   <!-- Http Server -->
-  <node name="http_server_node" pkg="bringup" type="start_http_server.sh" output="screen" />
+  <node name="http_server_node" pkg="web_interface" type="start_http_server.sh" output="screen" />
 
   <!-- Rosbridge Server -->
   <node pkg="rosbridge_server" type="rosbridge_websocket" name="rosbridge_server" output="screen">
@@ -119,4 +119,8 @@
         type="static_transform_publisher"
         name="link1_broadcaster"
         args="0.11 0 .16 -1.57 0 -1.67 base_footprint camera_rgb_optical_frame"/-->
+
+  <!-- Autodock Trigger -->
+  <node pkg="custom_scripts" name="autodock_trigger" type="autodock_trigger.py"/>
+
 </launch>

@@ -59,7 +59,7 @@
         <button onclick="publishMoveBaseGoal(3)">Goal 3</button>
         <button onclick="publishMoveBaseGoal(4)">Goal 4</button>
         <button onclick="publishMoveBaseGoal(5)">Home</button>
-
+        <button onclick="publishAutodockGoal()">Autodock</button>
         <br><br>
 
         <!-- Text box container with status label -->
@@ -144,6 +144,20 @@
             topic.publish(message);
         }
 
+        // Function to publish the Autodock goal to /start_autodock topic
+        function publishAutodockGoal() {
+            const textBox = document.getElementById('textBox');
+            textBox.value = "Starting autodock sequence ...";
+            const topic = new ROSLIB.Topic({
+                ros: ros,
+                name: '/start_autodock',
+                messageType: 'std_msgs/Empty'
+            });
+
+            const message = new ROSLIB.Message({});
+            topic.publish(message);
+        }
+
         // Function to subscribe to /move_base/status topic
         function subscribeToMoveBaseStatus() {
             const topic = new ROSLIB.Topic({
@@ -175,6 +189,8 @@
 
         // Subscribe to /move_base/status topic
         subscribeToMoveBaseStatus();
+
+
     </script>
 </body>
 </html>
